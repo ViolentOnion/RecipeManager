@@ -1,35 +1,56 @@
 #include "Ingredient.h"
-#include "MeasurementUnits.h"
+#include <stdio.h>
 #include <string.h>
 
-Ingredient* createIngredient(char* name, uint16_t amount, MeasureUnit unit) {
-    if (name == NULL) return NULL;
+Ingredient* insertIngredient(Ingredient* start, unsigned int amount, char* name, char* unit) {
+    Ingredient* new = (Ingredient*)malloc(sizeof(Ingredient));
 
-    Ingredient* newIngredient = (Ingredient*)malloc(sizeof(Ingredient));
+    if (new == NULL) {
+        fprintf(stderr, "Memory allocation failed");
+        exit(EXIT_SUCCESS);
+    }
 
-    // no memory
-    if (newIngredient == NULL) return NULL;
+    new->amount = amount;
+    new->name = name;
+    new->unit = unit;
+    new->next = NULL;
 
-    newIngredient->amount = amount;
-    newIngredient->unit = unit;
+    if (start == NULL) return new;
 
-    struct recipe_ingredient_name* ingredientName = createIngredientName(name);
+    Ingredient* temp = start;
 
-    if (ingredientName == NULL) return NULL;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
 
-    newIngredient->name = *ingredientName;
+    temp->next = new;
 
-    return newIngredient;
+    return start;
 }
 
-struct recipe_ingredient_name* createIngredientName(char* name) {
-    size_t length = strlen(name);
-    struct recipe_ingredient_name* ingredientName = (struct recipe_ingredient_name*)malloc(sizeof(struct recipe_ingredient_name));
 
-    if (ingredientName == NULL) return NULL;
+void prettyPrintIngredients(Ingredient* ingredients) {
+    if (ingredients == NULL) return;
 
-    ingredientName->nameLength = length;
-    strcpy(ingredientName->name, name);
+    printf("Ingredients:\n");
 
-    return ingredientName;
+    Ingredient* current = ingredients;
+
+    while(current != NULL) {
+        prettyPrintIngredient(current);
+        current = current->next;
+    }
+
+    printf("\n\n");
+}
+
+void prettyPrintIngredient(Ingredient* ingredient) {
+    if (ingredient == NULL) return;
+
+    if (ingredient->amount == 0 && strcmp(ingredient->unit, " ") == 0) {
+        printf("%s", ingredient->name);
+        return;
+    }
+
+    printf("%-4d  %-10s  %s\n", ingredient->amount, ingredient->unit, ingredient->name);
 }

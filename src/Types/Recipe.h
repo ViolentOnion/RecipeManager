@@ -2,28 +2,18 @@
 #define RECIPE_MANAGER_RECIPE_H
 
 #include "Ingredient.h"
+#include <stdio.h>
 
-struct recipe_name {
-    size_t length;
+typedef struct recipe {
+    unsigned int index;
     char* name;
-};
-
-struct recipe_ingredient_list {
-    size_t count;
-    Ingredient* ingredients;
-};
-
-struct recipe_instructions {
-    size_t length;
     char* instructions;
-};
-
-typedef struct recipe_struct {
-    struct recipe_name name;
-    struct recipe_ingredient_list ingredients;
-    struct recipe_instructions instructions;
+    Ingredient* ingredients;
+    struct recipe* next;
 } Recipe;
 
-int addRecipe(char* name, Ingredient* ingredient, char* instructions);
+Recipe* insertRecipe(Recipe* start, unsigned int index, char* name, char* instructions, Ingredient* ingredientList);
+void displayRecipeNames(Recipe* start);
+void prettyPrintRecipe(Recipe* recipe);
 
 #endif //RECIPE_MANAGER_RECIPE_H
