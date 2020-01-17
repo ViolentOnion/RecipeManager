@@ -1,18 +1,23 @@
 #include "Ingredient.h"
+#include "../Utilities.h"
 #include <stdio.h>
 #include <string.h>
 
-Ingredient* insertIngredient(Ingredient* start, unsigned int amount, char* name, char* unit) {
-    Ingredient* new = (Ingredient*)malloc(sizeof(Ingredient));
+Ingredient* insertIngredient(Ingredient* start, unsigned int amount, const char* name, const char* unit) {
+    Ingredient* new = (Ingredient*)safe_malloc(sizeof(Ingredient));
 
     if (new == NULL) {
         fprintf(stderr, "Memory allocation failed");
         exit(EXIT_SUCCESS);
     }
 
+    new->name = (char*)safe_malloc(sizeof(char) * strlen(name));
+    strcpy(new->name, name);
+
+    new->unit = (char*)safe_malloc(sizeof(char) * strlen(unit));
+    strcpy(new->unit, unit);
+
     new->amount = amount;
-    new->name = name;
-    new->unit = unit;
     new->next = NULL;
 
     if (start == NULL) return new;
@@ -53,4 +58,13 @@ void prettyPrintIngredient(Ingredient* ingredient) {
     }
 
     printf("%-4d  %-10s  %s\n", ingredient->amount, ingredient->unit, ingredient->name);
+}
+
+void freeIngredient(Ingredient* ingredient) {
+    if (ingredient == NULL || ingredient->next == NULL) return;
+
+    freeIngredient(ingredient->next);
+    free(ingredient->name);
+    free(ingredient->unit);
+    free(ingredient);
 }

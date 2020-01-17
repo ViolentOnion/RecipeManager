@@ -40,13 +40,15 @@ Recipe* parseRecipes(const char* path) {
         start = insertRecipe(start, index++, name, instructions, ingredients);
     }
 
+    free(lineBuff);
+
     return start;
 }
 
 Ingredient* parseIngredients(char* ingredients) {
     if (ingredients == NULL) return NULL;
 
-    char* ptr = strdup(ingredients);
+    char* ptr;
     char* token = strtok_r(ingredients, INGREDIENT_DELIMITER, &ptr);
 
     if (token == NULL) {
@@ -57,10 +59,10 @@ Ingredient* parseIngredients(char* ingredients) {
     Ingredient* start = NULL;
 
     do {
-        char* dup = strdup(token);
-        char* amountStr = strtok_r(token, INGREDIENT_COMP_DELIMITER, &dup);
-        char* unit = strtok_r(NULL, INGREDIENT_COMP_DELIMITER, &dup);
-        char* name = strtok_r(NULL, INGREDIENT_COMP_DELIMITER, &dup);
+        char* ingrPtr;
+        char* amountStr = strtok_r(token, INGREDIENT_COMP_DELIMITER, &ingrPtr);
+        char* unit = strtok_r(NULL, INGREDIENT_COMP_DELIMITER, &ingrPtr);
+        char* name = strtok_r(NULL, INGREDIENT_COMP_DELIMITER, &ingrPtr);
         char** ptr = NULL;
 
         if (amountStr == NULL || unit == NULL || name == NULL) {

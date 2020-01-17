@@ -13,5 +13,7 @@ int main(int argc, char* argv[]) {
 
     prettyPrintRecipe(recipes);
 
+    freeRecipe(recipes);
+
     return 0;
 }

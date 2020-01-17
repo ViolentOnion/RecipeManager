@@ -10,8 +10,9 @@ typedef struct ingredient {
     struct ingredient* next;
 } Ingredient;
 
-Ingredient* insertIngredient(Ingredient* start, unsigned int amount, char* name, char* unit);
+Ingredient* insertIngredient(Ingredient* start, unsigned int amount, const char* name, const char* unit);
 void prettyPrintIngredient(Ingredient* ingredient);
 void prettyPrintIngredients(Ingredient* ingredients);
+void freeIngredient(Ingredient* ingredient);
 
 #endif //RECIPE_MANAGER_INGREDIENT_H

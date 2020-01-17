@@ -2,16 +2,16 @@
 #include "../Utilities.h"
 #include <string.h>
 
-Recipe* insertRecipe(Recipe* start, unsigned int index, char* name, char* instructions, Ingredient* ingredientList) {
+Recipe* insertRecipe(Recipe* start, unsigned int index, const char* name, const char* instructions, Ingredient* ingredientList) {
     Recipe* new = (Recipe*)safe_malloc(sizeof(Recipe));
 
     new->index = index;
 
     new->name = (char*)safe_malloc(sizeof(char) * strlen(name));
-    new->name = name;
+    strcpy(new->name, name);
 
     new->instructions = (char*)safe_malloc(sizeof(char) * strlen(instructions));
-    new->instructions = instructions;
+    strcpy(new->instructions, instructions);
 
     new->ingredients = ingredientList;
     new->next = NULL;
@@ -50,4 +50,14 @@ void prettyPrintRecipe(Recipe* recipe) {
     prettyPrintIngredients(recipe->ingredients);
     printf("Instructions:\n");
     printf("%s\n", recipe->instructions);
+}
+
+void freeRecipe(Recipe* start) {
+    if (start->next == NULL) return;
+
+    freeRecipe(start->next);
+    freeIngredient(start->ingredients);
+    free(start->name);
+    free(start->instructions);
+    free(start);
 }
