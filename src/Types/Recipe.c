@@ -2,15 +2,15 @@
 #include "../Utilities.h"
 #include <string.h>
 
-Recipe* insertRecipe(Recipe* start, unsigned int index, const char* name, const char* instructions, Ingredient* ingredientList) {
+Recipe* insertRecipe(Recipe* start, const char* name, const char* instructions, Ingredient* ingredientList) {
     Recipe* new = (Recipe*)safe_malloc(sizeof(Recipe));
 
-    new->index = index;
+    new->index = 0;
 
-    new->name = (char*)safe_malloc(sizeof(char) * strlen(name));
+    new->name = (char*)safe_malloc(sizeof(char) * (strlen(name) + 1));
     strcpy(new->name, name);
 
-    new->instructions = (char*)safe_malloc(sizeof(char) * strlen(instructions));
+    new->instructions = (char*)safe_malloc(sizeof(char) * (strlen(instructions) + 1));
     strcpy(new->instructions, instructions);
 
     new->ingredients = ingredientList;
@@ -22,6 +22,7 @@ Recipe* insertRecipe(Recipe* start, unsigned int index, const char* name, const 
 
     while (temp->next != NULL) temp = temp->next;
 
+    new->index = temp->index + 1;
     temp->next = new;
 
     return start;
@@ -60,4 +61,75 @@ void freeRecipe(Recipe* start) {
     free(start->name);
     free(start->instructions);
     free(start);
+}
+
+Recipe* getRecipeByIndex(Recipe* start, unsigned int index) {
+    Recipe* temp = start;
+
+    while (temp != NULL) {
+        if (temp->index == index) return temp;
+        temp = temp->next;
+    }
+
+    return temp;
+}
+
+Recipe* readRecipe() {
+    char buffer[2000];
+    Ingredient* ingredients = NULL;
+    Recipe* new = NULL;
+
+    while (1) {
+        fprintf(stdout, "Please enter the name of the recipe or (q) to quit:\n");
+
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL || strcmp(buffer, "\n") == 0) {
+            fprintf(stdout, "Please enter a valid and non-empty name.\n");
+            continue;
+        }
+
+        if (strcmp(buffer, "q\n") == 0) break;
+
+        char name[strlen(buffer)];
+        buffer[strcspn(buffer, "\n")] = '\0';
+        strcpy(name, buffer);
+
+        fprintf(stdout, "Enter the amount of ingredients:\n");
+
+        unsigned int ingredientAmount = 0;
+
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL || strcmp(buffer, "\n") == 0 || strcmp(buffer, "0\n") == 0) {
+            fprintf(stdout, "Must specify at least 1 ingredient.\n");
+            continue;
+        }
+
+        ingredientAmount = (int)strtoul(buffer, NULL, 10);
+
+        ingredients = readIngredients(ingredientAmount);
+
+        if (ingredients == NULL) return NULL;
+
+        fprintf(stdout, "Please enter the cooking instructions:\n");
+
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL || strcmp(buffer, "\n") == 0) {
+            fprintf(stdout, "Please enter non-empty instructions.\n");
+            continue;
+        }
+
+        char instructions[strlen(buffer)];
+        buffer[strcspn(buffer, "\n")] = '\0';
+        strcpy(instructions, buffer);
+
+        new = (Recipe*)safe_malloc(sizeof(Recipe));
+
+        new->instructions = (char*)safe_malloc(sizeof(char) * sizeof(instructions));
+        strcpy(new->instructions, instructions);
+
+        new->name = (char*)safe_malloc(sizeof(char) * sizeof(name));
+        strcpy(new ->name, name);
+
+        new->ingredients = ingredients;
+        break;
+    }
+
+    return new;
 }

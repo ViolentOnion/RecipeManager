@@ -10,5 +10,6 @@
 
 Recipe* parseRecipes(const char* path);
 Ingredient* parseIngredients(char* ingredients);
+int writeToFile(Recipe* start, const char* path);
 
 #endif //RECIPE_MANAGER_FILEMANAGER_H

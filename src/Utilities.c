@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "Utilities.h"
 
 void* safe_malloc(size_t size) {
