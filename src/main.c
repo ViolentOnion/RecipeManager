@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include <getopt.h>
 #include "FileManager.h"
 
@@ -53,19 +52,18 @@ int main(int argc, char* argv[]) {
                 new->index = temp->index + 1;
                 temp->next = new;
 
-                writeToFile(recipes, "/Users/srole/Git/Recipe-Manager/src/database.txt");
-
+                writeToFile(recipes, argv[optind]);
                 displayRecipeNames(recipes);
             } else if (strcmp(buffer, EDIT) == 0) {
                 int recipeIndex = 0;
 
                 fprintf(stdout, "Please the index of the recipe to edit:\n");
-                if (fgets(buffer, BUFF_SIZE, stdin) != NULL || strcmp(buffer, "\n") == 0) {
+                if (fgets(buffer, BUFF_SIZE, stdin) == NULL || strcmp(buffer, "\n") == 0) {
                     fprintf(stderr, "Invalid input.");
                     continue;
                 }
 
-                recipeIndex = strtol(buffer, NULL, 10);
+                recipeIndex = (int)strtol(buffer, NULL, 10);
 
                 if (recipeIndex <= 0) {
                     fprintf(stderr, "Invalid input.");
@@ -76,21 +74,29 @@ int main(int argc, char* argv[]) {
 
                 if (new == NULL) return EXIT_SUCCESS;
 
-                Recipe* old = getRecipeByIndex(recipes, recipeIndex);
+                Recipe* previous = getRecipeByIndex(recipes, recipeIndex == 1 ? recipeIndex : recipeIndex - 1);
 
-                if (old == NULL) {
+                if (previous == NULL) {
                     fprintf(stdout, "Recipe at given index could not be found.\n");
                     break;
                 }
 
-                Recipe* deleted = old;
-                old = new;
-                free(deleted);
+                if (previous->next == NULL) {
+                    previous->next = new;
+                }
+                else {
+                    Recipe* old = previous->next;
+                    previous->next = new;
+                    new->next = old->next == NULL ? NULL : old->next;
+                    new->index = old->index;
+                    free(old);
+                }
 
+                writeToFile(recipes, argv[optind]);
                 displayRecipeNames(recipes);
             } else if (strcmp(buffer, QUIT) == 0) {
                 break;
-            } else if ((recipeIndex = strtol(buffer, NULL, 10)) > 0) {
+            } else if ((recipeIndex = (int)strtol(buffer, NULL, 10)) > 0) {
                 Recipe* recipe = getRecipeByIndex(recipes, recipeIndex);
 
                 if (recipe == NULL) {

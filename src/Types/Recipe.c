@@ -5,7 +5,7 @@
 Recipe* insertRecipe(Recipe* start, const char* name, const char* instructions, Ingredient* ingredientList) {
     Recipe* new = (Recipe*)safe_malloc(sizeof(Recipe));
 
-    new->index = 0;
+    new->index = 1;
 
     new->name = (char*)safe_malloc(sizeof(char) * (strlen(name) + 1));
     strcpy(new->name, name);
@@ -89,7 +89,8 @@ Recipe* readRecipe() {
 
         if (strcmp(buffer, "q\n") == 0) break;
 
-        char name[strlen(buffer)];
+        int nameLength = (int)strlen(buffer);
+        char name[nameLength];
         buffer[strcspn(buffer, "\n")] = '\0';
         strcpy(name, buffer);
 
@@ -115,16 +116,16 @@ Recipe* readRecipe() {
             continue;
         }
 
-        char instructions[strlen(buffer)];
-        buffer[strcspn(buffer, "\n")] = '\0';
+        int instructionSize = (int)strlen(buffer);
+        char instructions[instructionSize];
         strcpy(instructions, buffer);
 
         new = (Recipe*)safe_malloc(sizeof(Recipe));
 
-        new->instructions = (char*)safe_malloc(sizeof(char) * sizeof(instructions));
+        new->instructions = (char*)safe_malloc(sizeof(char) * instructionSize);
         strcpy(new->instructions, instructions);
 
-        new->name = (char*)safe_malloc(sizeof(char) * sizeof(name));
+        new->name = (char*)safe_malloc(sizeof(char) * nameLength);
         strcpy(new ->name, name);
 
         new->ingredients = ingredients;

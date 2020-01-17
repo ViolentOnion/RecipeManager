@@ -69,7 +69,7 @@ Ingredient* parseIngredients(char* ingredients) {
             exit(EXIT_FAILURE);
         }
 
-        int amount = strtol(amountStr, NULL, 10);
+        int amount = (int)strtol(amountStr, NULL, 10);
 
         if (amount == 0 && strcmp(amountStr, " ") != 0) {
             fprintf(stderr, "Error while parsing ingredient amount\nPlease check the file structure.\n");
@@ -120,7 +120,7 @@ int writeToFile(Recipe* start, const char* path) {
             curr = curr->next;
         }
 
-        if (fprintf(fp, ";%s\n", recipe->instructions) <= 0) return -1;
+        if (fprintf(fp, ";%s", recipe->instructions) <= 0) return -1;
 
         recipe = recipe->next;
         rowsWritten++;
