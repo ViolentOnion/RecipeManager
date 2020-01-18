@@ -50,7 +50,8 @@ void prettyPrintRecipe(Recipe* recipe) {
     printf("==========================\n");
     prettyPrintIngredients(recipe->ingredients);
     printf("Instructions:\n");
-    printf("%s\n", recipe->instructions);
+    printf("%s", recipe->instructions);
+    printf("==========================\n");
 }
 
 void freeRecipe(Recipe* start) {
@@ -96,7 +97,7 @@ Recipe* readRecipe() {
 
         fprintf(stdout, "Enter the amount of ingredients:\n");
 
-        unsigned int ingredientAmount = 0;
+        int ingredientAmount = 0;
 
         if (fgets(buffer, sizeof(buffer), stdin) == NULL || strcmp(buffer, "\n") == 0 || strcmp(buffer, "0\n") == 0) {
             fprintf(stdout, "Must specify at least 1 ingredient.\n");
@@ -104,6 +105,13 @@ Recipe* readRecipe() {
         }
 
         ingredientAmount = (int)strtoul(buffer, NULL, 10);
+
+        if (ingredientAmount <= 0) {
+            fprintf(stdout, "Must specify an amount >= 0.\n");
+            continue;
+        }
+
+        printf("%d", ingredientAmount);
 
         ingredients = readIngredients(ingredientAmount);
 
@@ -113,6 +121,7 @@ Recipe* readRecipe() {
 
         if (fgets(buffer, sizeof(buffer), stdin) == NULL || strcmp(buffer, "\n") == 0) {
             fprintf(stdout, "Please enter non-empty instructions.\n");
+            freeIngredient(ingredients);
             continue;
         }
 

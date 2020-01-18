@@ -12,7 +12,7 @@ Recipe* parseRecipes(const char* path) {
     Recipe* start = NULL;
 
     if (fp == NULL) {
-        fprintf(stderr, "Could not open file at path %s", path);
+        fprintf(stderr, "Could not open file at path %s\n", path);
         exit(EXIT_FAILURE);
     }
 
@@ -52,7 +52,7 @@ Ingredient* parseIngredients(char* ingredients) {
     char* token = strtok_r(ingredients, INGREDIENT_DELIMITER, &ptr);
 
     if (token == NULL) {
-        fprintf(stderr, "Invalid ingredient structure");
+        fprintf(stderr, "Invalid ingredient structure.\n");
         exit(EXIT_FAILURE);
     }
 

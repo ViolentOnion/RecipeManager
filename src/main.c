@@ -70,19 +70,20 @@ int main(int argc, char* argv[]) {
                     continue;
                 }
 
-                Recipe* new = readRecipe();
-
-                if (new == NULL) return EXIT_SUCCESS;
-
                 Recipe* previous = getRecipeByIndex(recipes, recipeIndex == 1 ? recipeIndex : recipeIndex - 1);
 
                 if (previous == NULL) {
                     fprintf(stdout, "Recipe at given index could not be found.\n");
-                    break;
+                    continue;
                 }
+
+                Recipe* new = readRecipe();
+
+                if (new == NULL) return EXIT_SUCCESS;
 
                 if (previous->next == NULL) {
                     previous->next = new;
+                    new->index = previous->index + 1;
                 }
                 else {
                     Recipe* old = previous->next;
@@ -105,6 +106,7 @@ int main(int argc, char* argv[]) {
                 }
 
                 prettyPrintRecipe(recipe);
+                displayRecipeNames(recipes);
             } else {
                 fprintf(stderr, "Unknown command.\n");
             }

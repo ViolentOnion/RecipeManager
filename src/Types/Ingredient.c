@@ -41,7 +41,7 @@ void prettyPrintIngredients(Ingredient* ingredients) {
         current = current->next;
     }
 
-    printf("\n\n");
+    printf("\n");
 }
 
 void prettyPrintIngredient(Ingredient* ingredient) {
@@ -90,7 +90,7 @@ Ingredient* readIngredients(unsigned int amount) {
             continue;
         }
 
-        int ingrAmount = strtoul(buff, NULL , 10);
+        int ingrAmount = (int)strtoul(buff, NULL , 10);
 
         fprintf(stdout, "Please enter a unit (leave blank for nothing): \n");
         if (fgets(buff, sizeof(buff), stdin) == NULL) {
