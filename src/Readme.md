@@ -30,3 +30,6 @@ ein Rezept mit diesem Index vorhande ist. Trifft dies zu, wird die Eingabe eines
 ##### Beenden des Programms
 Wird die Bearbeitung der Rezepte nicht mehr gewünscht, wird die Option angeboten das Programm mit dem Kommando
 ``q`` zu Beenden. Die Option wird nicht nur im "Hauptmenü" angeboten, sondern auch in den Zwischenschritten im Programm.
+
+##### Known Issues
+Die Verwendung von strtok() ist aufgrund der FileStruktur nicht möglich. Die nicht C99 konforme Funktion ``strtok_r()`` wird daher verwendet.
