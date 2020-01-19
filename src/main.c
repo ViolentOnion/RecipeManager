@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+#include <stdlib.h>
 #include "FileManager.h"
+#include "Types/Recipe.h"
 
 #define BUFF_SIZE 2000
 #define EDIT "e\n"

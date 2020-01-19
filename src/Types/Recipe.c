@@ -92,8 +92,8 @@ Recipe* readRecipe() {
 
         int nameLength = (int)strlen(buffer);
         char name[nameLength];
-        buffer[strcspn(buffer, "\n")] = '\0';
-        strcpy(name, buffer);
+        strncpy(name, buffer, nameLength - 1);
+        name[nameLength - 1] = '\0';
 
         fprintf(stdout, "Enter the amount of ingredients:\n");
 
@@ -111,8 +111,6 @@ Recipe* readRecipe() {
             continue;
         }
 
-        printf("%d", ingredientAmount);
-
         ingredients = readIngredients(ingredientAmount);
 
         if (ingredients == NULL) return NULL;
@@ -126,7 +124,7 @@ Recipe* readRecipe() {
         }
 
         int instructionSize = (int)strlen(buffer);
-        char instructions[instructionSize];
+        char instructions[instructionSize + 1];
         strcpy(instructions, buffer);
 
         new = (Recipe*)safe_malloc(sizeof(Recipe));
