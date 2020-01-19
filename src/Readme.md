@@ -32,4 +32,4 @@ Wird die Bearbeitung der Rezepte nicht mehr gewünscht, wird die Option angebote
 ``q`` zu Beenden. Die Option wird nicht nur im "Hauptmenü" angeboten, sondern auch in den Zwischenschritten im Programm.
 
 ##### Known Issues
-Die Verwendung von strtok() ist aufgrund der FileStruktur nicht möglich. Die nicht C99 konforme Funktion ``strtok_r()`` wird daher verwendet.
+Die Verwendung von strtok() ist aufgrund der FileStruktur nicht möglich. Die nicht C99 konforme Funktion ``strtok_r()`` wird daher verwendet. Die Warnmeldungen ``-Wimplicit-function-declaration`` und ``-Wint-conversion (initialization of ‘char *’ from ‘int’ makes pointer from integer without a cast)`` werden daher angezeigt. Der Rückgabewert wird daher implizit als ``int`` behandelt.
