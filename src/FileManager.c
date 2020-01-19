@@ -1,9 +1,18 @@
+/// @file FileManager.c/// Parses recipe from given file at path.
+/// @param path
+/// @return First node of recipe list
+/// @return NULL if path is null or file is empty
+
 #include "FileManager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Utilities.h"
 
+/// Parses recipe from given file at path.
+/// @param path
+/// @return First node of recipe list
+/// @return NULL if path is null or file is empty
 Recipe* parseRecipes(const char* path) {
     if (path == NULL) return NULL;
 
@@ -45,6 +54,10 @@ Recipe* parseRecipes(const char* path) {
     return start;
 }
 
+/// Parses the ingredients from the given Ingredient string.
+/// @param ingredients
+/// @return First node of ingredient list
+/// @return NULL if ingredient string is NULL or ingredient list is empty.
 Ingredient* parseIngredients(char* ingredients) {
     if (ingredients == NULL) return NULL;
 
@@ -82,6 +95,11 @@ Ingredient* parseIngredients(char* ingredients) {
     return start;
 }
 
+/// Writes the recipes and their ingredients to the file at given path.
+/// @param start
+/// @param path
+/// @return Number of rows written to the file
+/// @return Negative integer value in case of failure
 int writeToFile(Recipe* start, const char* path) {
     if (start == NULL || path == NULL) return -1;
 

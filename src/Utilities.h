@@ -1,3 +1,5 @@
+/// @file Utilities.h
+
 #ifndef RECIPE_MANAGER_UTILITIES_H
 #define RECIPE_MANAGER_UTILITIES_H
 

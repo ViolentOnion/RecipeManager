@@ -1,3 +1,5 @@
+/// @file Ingredient.h
+
 #ifndef RECIPE_MANAGER_INGREDIENT_H
 #define RECIPE_MANAGER_INGREDIENT_H
 

@@ -1,8 +1,16 @@
+/// @file Ingredient.c
+
 #include "Ingredient.h"
 #include "../Utilities.h"
 #include <stdio.h>
 #include <string.h>
 
+/// Inserts a new Ingredient into the list
+/// @param start
+/// @param amount
+/// @param name
+/// @param unit
+/// @return head of the list
 Ingredient* insertIngredient(Ingredient* start, unsigned int amount, const char* name, const char* unit) {
     Ingredient* new = (Ingredient*)safe_malloc(sizeof(Ingredient));
 
@@ -28,7 +36,8 @@ Ingredient* insertIngredient(Ingredient* start, unsigned int amount, const char*
     return start;
 }
 
-
+/// Pretty prints all ingredients in the list
+/// @param ingredients
 void prettyPrintIngredients(Ingredient* ingredients) {
     if (ingredients == NULL) return;
 
@@ -44,6 +53,8 @@ void prettyPrintIngredients(Ingredient* ingredients) {
     printf("\n");
 }
 
+/// Pretty prints a single ingredient
+/// @param ingredient
 void prettyPrintIngredient(Ingredient* ingredient) {
     if (ingredient == NULL) return;
 
@@ -55,6 +66,8 @@ void prettyPrintIngredient(Ingredient* ingredient) {
     printf("%-4d  %-10s  %s\n", ingredient->amount, ingredient->unit, ingredient->name);
 }
 
+/// Recursively frees all ingredients in the list
+/// @param ingredient
 void freeIngredient(Ingredient* ingredient) {
     if (ingredient == NULL || ingredient->next == NULL) return;
 
@@ -64,6 +77,10 @@ void freeIngredient(Ingredient* ingredient) {
     free(ingredient);
 }
 
+/// Reads the user input and creates new ingredients based on the amount
+/// @param amount
+/// @return First node of ingredient list
+/// @return NULL on abort or failure
 Ingredient* readIngredients(unsigned int amount) {
     char buff[20];
     char name[20];

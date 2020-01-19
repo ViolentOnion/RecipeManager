@@ -1,3 +1,5 @@
+/// @file Recipe.h
+
 #ifndef RECIPE_MANAGER_RECIPE_H
 #define RECIPE_MANAGER_RECIPE_H
 

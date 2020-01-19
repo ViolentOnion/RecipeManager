@@ -1,7 +1,15 @@
+/// @file Recipe.c
+
 #include "Recipe.h"
 #include "../Utilities.h"
 #include <string.h>
 
+/// Inserts a new Recipe into the list
+/// @param start
+/// @param name
+/// @param instructions
+/// @param ingredientList
+/// @return head of the list
 Recipe* insertRecipe(Recipe* start, const char* name, const char* instructions, Ingredient* ingredientList) {
     Recipe* new = (Recipe*)safe_malloc(sizeof(Recipe));
 
@@ -28,6 +36,8 @@ Recipe* insertRecipe(Recipe* start, const char* name, const char* instructions, 
     return start;
 }
 
+/// Displays the index and name of all recipes in the list
+/// @param start
 void displayRecipeNames(Recipe* start) {
     if (start == NULL) return;
 
@@ -39,6 +49,8 @@ void displayRecipeNames(Recipe* start) {
     }
 }
 
+/// Pretty prints a single recipe
+/// @param recipe
 void prettyPrintRecipe(Recipe* recipe) {
     if (recipe == NULL) {
         printf("Could not find recipe with given index.");
@@ -54,6 +66,8 @@ void prettyPrintRecipe(Recipe* recipe) {
     printf("==========================\n");
 }
 
+/// Recursively frees all recipes in the list
+/// @param start
 void freeRecipe(Recipe* start) {
     if (start->next == NULL) return;
 
@@ -64,6 +78,11 @@ void freeRecipe(Recipe* start) {
     free(start);
 }
 
+/// Finds recipe in the list with the given index
+/// @param start
+/// @param index
+/// @return reference to the recipe
+/// @return NULL if not found
 Recipe* getRecipeByIndex(Recipe* start, unsigned int index) {
     Recipe* temp = start;
 
@@ -75,6 +94,10 @@ Recipe* getRecipeByIndex(Recipe* start, unsigned int index) {
     return temp;
 }
 
+/// Reads the user input and creates a new Recipe
+/// @return First node of recipe list
+/// @return reference to the new recipe
+/// @return NULL on abort or failure
 Recipe* readRecipe() {
     char buffer[2000];
     Ingredient* ingredients = NULL;
