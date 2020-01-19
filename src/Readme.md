@@ -1,3 +1,6 @@
+Main Page {#mainpage}
+=========
+
 ##Recipe Manager
 
 #### Dies ist ein Rezeptmanager entwickelt in der Programmiersprache C. 
